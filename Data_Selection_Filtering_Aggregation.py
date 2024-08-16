@@ -56,17 +56,17 @@ def create_df_with_specific_data(df):
 
 
 def grouped_and_average(df):
-    group_df = df.groupby(['neighbourhood_group', 'price_category'])
+    group_df = df1.groupby(['neighbourhood_group', 'price_category'])
     grouped_df = group_df[['price', 'minimum_nights']].mean()
 
     print_grouped_data(grouped_df, 'Average price and minimum_nights')
-    return grouped_df
+
 #grouped_and_average(df)
 
 
 #group_df[['number_of_reviews', 'availability_365']].mean()
 def avg_number_of_reviews_and_availability_365(df):
-    df_avg = df.groupby(['neighbourhood_group', 'price_category']).agg(
+    df_avg = df1.groupby(['neighbourhood_group', 'price_category']).agg(
                                             {'number_of_reviews': ['mean'], 'availability_365': ['mean']})
 
     print_grouped_data(df_avg, 'Compute the average "number_of_reviews" and "availability_365" for each group')
@@ -75,10 +75,10 @@ def avg_number_of_reviews_and_availability_365(df):
 
 
 def sorting_asc_desc(df):
-    df_sorted = df.sort_values(['price', 'number_of_reviews'], ascending=[False, True])
+    df_sorted = df1.sort_values(['price', 'number_of_reviews'], ascending=[False, True])
 
     print_grouped_data(df_sorted, 'Sort the data by price in descending order and by number_of_reviews in ascending order.')
-
+    return df_sorted
 #sorting_asc_desc(df)
 
 
@@ -89,7 +89,7 @@ def sorting_asc_desc(df):
 
 def df_ranking(df):
     # Group by neighbourhood_group for calculatio the total number of listings and average price
-    grouped = df.groupby('neighbourhood_group').agg(
+    grouped = df1.groupby('neighbourhood_group').agg(
                                 total_listings=('price', 'size'),     # Total number of listings
                                 average_price =('price', 'mean')      # Average price
                             ).reset_index()
@@ -108,10 +108,10 @@ def df_ranking(df):
 
 
 
-##### I DO NOT UNDARSTAND WHAT EXACTLY DATA SHOULD BE UNLOADED TO CSV FILE
+##### I'M NOT SURE I UNDARSTAND WHAT EXACTLY DATA SHOULD BE UNLOADED TO CSV FILE
 def write_dataframe_to_csv(df):
     try:
-        grouped_df.to_csv(path + 'aggregated_airbnb_data.csv', index=False)
+        sorting_df.to_csv(path + 'aggregated_airbnb_data.csv', index=False)
         print('Success: The DataFrame was successfully written to csv file')
     except Exception as e:
         print('Fail: Failed to store file in csv')
@@ -128,9 +128,9 @@ if __name__ == "__main__":
     create_df_with_specific_data(df)
     df1 = create_df_with_specific_data(df)
     grouped_and_average(df)
-    grouped_df = grouped_and_average(df)
     avg_number_of_reviews_and_availability_365(df)
     sorting_asc_desc(df)
+    sorting_df = sorting_asc_desc(df)
     df_ranking(df)
 
     write_dataframe_to_csv(df)
